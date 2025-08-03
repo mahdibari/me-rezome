@@ -8,54 +8,58 @@
   <meta name="author" content="مهدی برزنده">
   <title>رزومه مهدی برزنده</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Vazir&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    /* تنظیمات پایه برای فونت و رنگ‌ها */
-    body {
-      font-family: 'Vazir', 'Inter', sans-serif; /* فونت فارسی Vazir و Inter برای انگلیسی */
-      background-color: #0f172a; /* پس‌زمینه تیره */
-      color: #e2e8f0; /* رنگ متن روشن */
-      line-height: 1.6;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      overflow-x: hidden; /* جلوگیری از اسکرول افقی */
+    /* === تنظیمات پایه و متغیرهای رنگی === */
+    :root {
+      --bg-dark: #0f172a;
+      --bg-light: #1e293b;
+      --text-light: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent-yellow: #facc15;
+      --accent-blue: #3b82f6;
     }
 
-    /* استایل‌دهی بخش‌ها */
+    body {
+      font-family: 'Vazirmatn', 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* === استایل‌دهی بخش‌ها با انیمیشن ورود بهبودیافته === */
     section {
       margin: 4rem 0;
-      padding: 2rem;
-      background-color: #1e293b; /* پس‌زمینه کمی روشن‌تر برای بخش‌ها */
-      border-radius: 1.5rem; /* گوشه‌های گردتر */
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); /* سایه عمیق‌تر */
-      opacity: 0; /* برای انیمیشن ورود */
-      transform: translateY(50px) scale(0.98); /* برای انیمیشن ورود */
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* انیمیشن نرم */
-      max-width: 1200px; /* حداکثر عرض */
-      width: 95%; /* عرض واکنش‌گرا */
+      padding: 2.5rem;
+      background-color: var(--bg-light);
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transform: translateY(60px) scale(0.97);
+      transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+      width: 95%;
+      max-width: 1200px;
     }
 
-    /* کلاس برای نمایش بخش‌ها پس از انیمیشن */
     section.is-visible {
       opacity: 1;
       transform: translateY(0) scale(1);
     }
 
-    /* استایل‌دهی عناوین */
+    /* === استایل عناوین بخش‌ها === */
     h2 {
-      font-size: 2.5rem; /* اندازه بزرگتر */
-      font-weight: 700;
-      color: #facc15; /* رنگ زرد طلایی */
-      border-bottom: 4px solid #3b82f6; /* خط زیرین آبی */
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--accent-yellow);
+      border-bottom: 4px solid var(--accent-blue);
       padding-bottom: 1rem;
-      margin-bottom: 2.5rem;
+      margin-bottom: 3rem;
       text-align: center;
     }
 
-    /* انیمیشن برای هدر */
+    /* === انیمیشن‌های جدید === */
     @keyframes fadeInScale {
       from { opacity: 0; transform: scale(0.9); }
       to { opacity: 1; transform: scale(1); }
@@ -65,18 +69,22 @@
       from { transform: translateY(-50px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.03); }
+    
+    @keyframes subtle-pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
+      50% { transform: scale(1.05); box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5); }
     }
 
-    /* استایل‌های سفارشی برای دکمه بازگشت به بالا */
+    @keyframes progress-fill-anim {
+        from { width: 0%; }
+    }
+
+    /* === دکمه بازگشت به بالا === */
     #back-to-top {
       position: fixed;
       bottom: 24px;
       left: 24px;
-      background: linear-gradient(to right, #3b82f6, #facc15); /* گرادیان آبی به زرد */
+      background: linear-gradient(45deg, var(--accent-blue), var(--accent-yellow));
       color: white;
       width: 56px;
       height: 56px;
@@ -86,30 +94,65 @@
       justify-content: center;
       cursor: pointer;
       opacity: 0;
-      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
       z-index: 100;
     }
     #back-to-top.show {
       opacity: 1;
       transform: translateY(0);
+      animation: subtle-pulse 2.5s infinite ease-in-out;
     }
     #back-to-top:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      transform: scale(1.1) !important; /* to override pulse */
+      box-shadow: 0 8px 25px rgba(250, 204, 21, 0.5);
     }
 
-    /* استایل برای آیکون‌های Lucide */
-    .lucide {
-      width: 36px;
-      height: 36px;
-      stroke-width: 2;
+    /* === استایل پیشرفته برای کارت‌های مهارت با افکت درخشش === */
+    .skill-item, .experience-item {
+        position: relative;
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+    }
+
+    .skill-item::before, .experience-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 1.1rem; /* slightly smaller than card's border-radius */
+        border: 2px solid transparent;
+        background: linear-gradient(45deg, var(--accent-blue), var(--accent-yellow)) border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: destination-out;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 0;
+    }
+
+    .skill-item:hover, .experience-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .skill-item:hover::before, .experience-item:hover::before {
+        opacity: 1;
+    }
+    
+    /* کلاس برای انیمیشن پر شدن نوار پیشرفت */
+    .progress-fill.animated {
+        animation: progress-fill-anim 1.5s 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
     }
   </style>
 </head>
-<body class="antialiased   ">
+<body class="antialiased">
+
+  <!-- === هدر جدید جایگزین شده === -->
   <header class="relative w-full h-[600px] bg-gradient-to-br from-gray-900 to-blue-950 flex flex-col justify-center items-center text-white overflow-hidden shadow-2xl">
-    <div class="absolute inset-0 z-0 opacity-10" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg stroke='%234A5568' stroke-width='1.2'%3E%3Cpath d='M-400 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M0 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M400 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M800 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M1200 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M-400 400h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M0 400h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M400 400h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M800 400h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M1200 400h800v800h-800Z' fill='%232D3748'/%3E%3C/g%3E%3C/svg%3E&quot;), linear-gradient(to bottom, #1e293b, #0f172a); background-size: cover;"></div>
+    <div class="absolute inset-0 z-0 opacity-10" style="background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg stroke='%234A5568' stroke-width='1.2'%3E%3Cpath d='M-400 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M0 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M400 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M800 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M1200 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M-400 400h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M0 400h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M400 400h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M800 400h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M1200 400h800v800h-800Z' fill='%232D3748'/%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to bottom, #1e293b, #0f172a); background-size: cover;"></div>
 
     <div class="z-10 text-center p-4">
       <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-white animate-[fadeInScale_1.5s_ease-out_forwards]">
@@ -131,19 +174,22 @@
           تجربه کاری
           <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 group-hover:w-full transition-all duration-300"></span>
         </a>
-    
          <a href="portfolio.html" class="text-white text-lg font-medium hover:text-yellow-400 transition-all duration-300 relative group">
           نمونه کار
+          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 group-hover:w-full transition-all duration-300"></span>
+        </a>
+        <a href="contact.html" class="text-white text-lg font-medium hover:text-yellow-400 transition-all duration-300 relative group">
+          تماس با ما
           <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 group-hover:w-full transition-all duration-300"></span>
         </a>
       </nav>
     </div>
   </header>
 
-  <main class="w-full max-w-6xl px-4 md:px-6 lg:px-8">
+  <main class="w-full flex flex-col items-center px-4 md:px-6 lg:px-8">
     <section id="about">
       <h2>درباره من</h2>
-      <p class="text-lg leading-relaxed text-gray-300">
+      <p class="text-lg text-center max-w-4xl mx-auto leading-relaxed text-gray-300">
         من مهدی برزنده، توسعه‌دهنده وب با اشتیاق به خلق وبسایت‌های مدرن و کاربرپسند با استفاده از فناوری‌هایی مانند Next.js، React و Supabase، HTML، CSS، JS، Astro هستم.
         در کنار کدنویسی، در طراحی گرافیک و ویرایش ویدئو مهارت دارم و به ایجاد تجربیات بصری خیره‌کننده علاقه‌مندم.
       </p>
@@ -151,64 +197,64 @@
 
     <section id="skills">
       <h2>مهارت‌ها</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center hover:scale-105 transition-transform duration-300 relative overflow-hidden group">
-          <div class="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl z-0"></div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- آیتم مهارت: توسعه وب -->
+        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center">
           <div class="relative z-10">
-            <i data-lucide="code" class="w-9 h-9 text-blue-400 mb-4"></i>
+            <i data-lucide="code-xml" class="w-12 h-12 text-blue-400 mb-4"></i>
             <h3 class="text-2xl font-semibold text-white mb-2">توسعه وب (فرانت‌اند)</h3>
             <p class="text-gray-300 mb-2">HTML, CSS, JavaScript, Next.js, React</p>
             <p class="text-gray-400 text-sm mb-4">سطح: حرفه‌ای</p>
             <div class="progress-bar w-full bg-gray-700 rounded-full h-3.5">
-              <div class="progress-fill bg-gradient-to-r from-blue-500 to-yellow-500 h-3.5 rounded-full" style="width: 90%;"></div>
+              <div class="progress-fill bg-gradient-to-r from-blue-500 to-yellow-500 h-3.5 rounded-full" data-width="90%"></div>
             </div>
           </div>
         </div>
-        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center hover:scale-105 transition-transform duration-300 relative overflow-hidden group">
-          <div class="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl z-0"></div>
+        <!-- آیتم مهارت: طراحی گرافیک -->
+        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center">
           <div class="relative z-10">
-            <i data-lucide="palette" class="w-9 h-9 text-green-400 mb-4"></i>
+            <i data-lucide="palette" class="w-12 h-12 text-green-400 mb-4"></i>
             <h3 class="text-2xl font-semibold text-white mb-2">طراحی گرافیک</h3>
             <p class="text-gray-300 mb-2">Adobe Photoshop, Illustrator</p>
             <p class="text-gray-400 text-sm mb-4">سطح: متوسط</p>
             <div class="progress-bar w-full bg-gray-700 rounded-full h-3.5">
-              <div class="progress-fill bg-gradient-to-r from-blue-500 to-yellow-500 h-3.5 rounded-full" style="width: 80%;"></div>
+              <div class="progress-fill bg-gradient-to-r from-green-400 to-blue-400 h-3.5 rounded-full" data-width="80%"></div>
             </div>
           </div>
         </div>
-        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center hover:scale-105 transition-transform duration-300 relative overflow-hidden group">
-          <div class="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl z-0"></div>
+        <!-- آیتم مهارت: ویرایش ویدئو -->
+        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center">
           <div class="relative z-10">
-            <i data-lucide="film" class="w-9 h-9 text-red-400 mb-4"></i>
+            <i data-lucide="film" class="w-12 h-12 text-red-400 mb-4"></i>
             <h3 class="text-2xl font-semibold text-white mb-2">ویرایش ویدئو</h3>
             <p class="text-gray-300 mb-2">Adobe Premiere, After Effects</p>
             <p class="text-gray-400 text-sm mb-4">سطح: متوسط</p>
             <div class="progress-bar w-full bg-gray-700 rounded-full h-3.5">
-              <div class="progress-fill bg-gradient-to-r from-blue-500 to-yellow-500 h-3.5 rounded-full" style="width: 50%;"></div>
+              <div class="progress-fill bg-gradient-to-r from-red-500 to-orange-500 h-3.5 rounded-full" data-width="50%"></div>
             </div>
           </div>
         </div>
-        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center hover:scale-105 transition-transform duration-300 relative overflow-hidden group">
-          <div class="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl z-0"></div>
-          <div class="relative z-10">
-            <i data-lucide="layout-dashboard" class="w-9 h-9 text-purple-400 mb-4"></i>
-            <h3 class="text-2xl font-semibold text-white mb-2">مدیریت پنل ادمین</h3>
-            <p class="text-gray-300 mb-2">طراحی داشبورد</p>
-            <p class="text-gray-400 text-sm mb-4">سطح: پیشرفته</p>
-            <div class="progress-bar w-full bg-gray-700 rounded-full h-3.5">
-              <div class="progress-fill bg-gradient-to-r from-blue-500 to-yellow-500 h-3.5 rounded-full" style="width: 70%;"></div>
+        <!-- آیتم مهارت: مدیریت پنل ادمین -->
+        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center">
+            <div class="relative z-10">
+              <i data-lucide="layout-dashboard" class="w-12 h-12 text-purple-400 mb-4"></i>
+              <h3 class="text-2xl font-semibold text-white mb-2">مدیریت پنل ادمین</h3>
+              <p class="text-gray-300 mb-2">طراحی داشبورد</p>
+              <p class="text-gray-400 text-sm mb-4">سطح: پیشرفته</p>
+              <div class="progress-bar w-full bg-gray-700 rounded-full h-3.5">
+                <div class="progress-fill bg-gradient-to-r from-purple-500 to-indigo-500 h-3.5 rounded-full" data-width="70%"></div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center hover:scale-105 transition-transform duration-300 relative overflow-hidden group">
-          <div class="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl z-0"></div>
+        <!-- آیتم مهارت: توسعه بک‌اند -->
+        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center">
           <div class="relative z-10">
-            <i data-lucide="database" class="w-9 h-9 text-yellow-400 mb-4"></i>
+            <i data-lucide="database" class="w-12 h-12 text-yellow-400 mb-4"></i>
             <h3 class="text-2xl font-semibold text-white mb-2">توسعه بک‌اند</h3>
             <p class="text-gray-300 mb-2">Node.js, Supabase</p>
             <p class="text-gray-400 text-sm mb-4">سطح: مبتدی تا متوسط</p>
             <div class="progress-bar w-full bg-gray-700 rounded-full h-3.5">
-              <div class="progress-fill bg-gradient-to-r from-blue-500 to-yellow-500 h-3.5 rounded-full" style="width: 30%;"></div>
+              <div class="progress-fill bg-gradient-to-r from-yellow-500 to-amber-500 h-3.5 rounded-full" data-width="30%"></div>
             </div>
           </div>
         </div>
@@ -217,69 +263,83 @@
 
     <section id="experience">
       <h2>تجربه کاری</h2>
-      <div class="experience-item bg-gray-800 p-6 rounded-xl shadow-lg mb-6 last:mb-0 hover:scale-[1.02] transition-transform duration-300">
-        <h3 class="text-2xl font-semibold text-white mb-2 flex items-center">
-          <i data-lucide="briefcase" class="w-6 h-6 text-yellow-400 ml-3"></i>
-          توسعه‌دهنده وب فریلنسر
-        </h3>
-        <p class="text-gray-400 text-sm mb-4">خوداشتغالی | ۱۴۰۱ - تاکنون</p>
-        <ul class="list-disc list-inside text-gray-300 space-y-2">
-          <li>طراحی و پیاده‌سازی وبسایت فروشگاهی با Next.js و Supabase</li>
-          <li>ساخت داشبورد مدیریت کاربران با امکانات</li>
-          <li>بهینه‌سازی رابط کاربری برای افزایش نرخ تعامل کاربران</li>
-        </ul>
-      </div>
-      <div class="experience-item bg-gray-800 p-6 rounded-xl shadow-lg hover:scale-[1.02] transition-transform duration-300">
-        <h3 class="text-2xl font-semibold text-white mb-2 flex items-center">
-          <i data-lucide="palette" class="w-6 h-6 text-green-400 ml-3"></i>
-          طراح گرافیک (پاره‌وقت)
-        </h3>
-        <ul class="list-disc list-inside text-gray-300 space-y-2">
-          <li>طراحی بنرهای تبلیغاتی و محتوای بصری برای شبکه‌های اجتماعی</li>
-          <li>همکاری در تولید ویدئوهای تبلیغاتی کوتاه</li>
-        </ul>
+      <div class="space-y-8">
+        <div class="experience-item bg-gray-800 p-8 rounded-xl shadow-lg">
+          <h3 class="text-2xl font-semibold text-white mb-2 flex items-center">
+            <i data-lucide="briefcase" class="w-7 h-7 text-yellow-400 ml-3"></i>
+            توسعه‌دهنده وب فریلنسر
+          </h3>
+          <p class="text-gray-400 text-sm mb-4">خوداشتغالی | ۱۴۰۱ - تاکنون</p>
+          <ul class="list-disc list-inside text-gray-300 space-y-2 pl-2">
+            <li>طراحی و پیاده‌سازی وبسایت فروشگاهی با Next.js و Supabase</li>
+            <li>ساخت داشبورد مدیریت کاربران با امکانات</li>
+            <li>بهینه‌سازی رابط کاربری برای افزایش نرخ تعامل کاربران</li>
+          </ul>
+        </div>
+        <div class="experience-item bg-gray-800 p-8 rounded-xl shadow-lg">
+          <h3 class="text-2xl font-semibold text-white mb-2 flex items-center">
+            <i data-lucide="palette" class="w-7 h-7 text-green-400 ml-3"></i>
+            طراح گرافیک (پاره‌وقت)
+          </h3>
+          <ul class="list-disc list-inside text-gray-300 space-y-2 pl-2">
+            <li>طراحی بنرهای تبلیغاتی و محتوای بصری برای شبکه‌های اجتماعی</li>
+            <li>همکاری در تولید ویدئوهای تبلیغاتی کوتاه</li>
+          </ul>
+        </div>
       </div>
     </section>
-
   </main>
 
   <button id="back-to-top" title="بازگشت به بالا">
-    <i data-lucide="chevron-up" class="w-6 h-6"></i>
+    <i data-lucide="chevron-up" class="w-7 h-7"></i>
   </button>
 
-  <footer class="w-full bg-gray-900 text-center py-6 mt-12 rounded-t-xl shadow-inner">
+  <footer class="w-full bg-gray-900 text-center py-6 mt-16 shadow-inner">
     <p class="text-gray-400 text-sm">© ۱۴۰۴ مهدی برزنده | تمامی حقوق محفوظ است</p>
   </footer>
 
   <script>
-    // Lucide Icons را پس از بارگذاری صفحه رندر می‌کند
     lucide.createIcons();
 
-    // انیمیشن ورود بخش‌ها
-    const sections = document.querySelectorAll('section');
+    // === مدیریت انیمیشن‌های هنگام اسکرول ===
     const observerOptions = {
       root: null,
       rootMargin: '0px',
       threshold: 0.1
     };
 
-    const sectionObserver = new IntersectionObserver((entries, observer) => {
+    const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target); // پس از نمایش، مشاهده را متوقف کن
+          
+          // انیمیشن برای آیتم‌های فرزند (کارت‌های مهارت و تجربه) با تاخیر
+          const items = entry.target.querySelectorAll('.skill-item, .experience-item');
+          items.forEach((item, index) => {
+            item.style.transitionDelay = `${index * 150}ms`;
+          });
+
+          // انیمیشن برای نوارهای پیشرفت
+          const progressBars = entry.target.querySelectorAll('.progress-fill');
+          progressBars.forEach(bar => {
+            const width = bar.getAttribute('data-width');
+            bar.style.width = width;
+            bar.classList.add('animated');
+          });
+
+          observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
 
-    sections.forEach(section => {
-      sectionObserver.observe(section);
+    document.querySelectorAll('section').forEach(section => {
+      observer.observe(section);
     });
 
-    // دکمه بازگشت به بالا
+    // === دکمه بازگشت به بالا ===
     const backToTopButton = document.getElementById('back-to-top');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 500) {
+      if (window.scrollY > 400) {
         backToTopButton.classList.add('show');
       } else {
         backToTopButton.classList.remove('show');
@@ -288,32 +348,6 @@
 
     backToTopButton.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // مدیریت فرم تماس
-    const contactForm = document.getElementById('contact-form');
-    const formStatus = document.getElementById('form-status');
-
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      formStatus.textContent = 'در حال ارسال...';
-      formStatus.className = 'mt-4 text-center text-sm text-blue-400';
-
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const message = document.getElementById('message').value;
-
-      // شبیه‌سازی ارسال پیام (در یک پروژه واقعی اینجا اطلاعات به سرور ارسال می‌شود)
-      setTimeout(() => {
-        if (name && email && message) {
-          formStatus.textContent = 'پیام شما با موفقیت ارسال شد!';
-          formStatus.className = 'mt-4 text-center text-sm text-green-400';
-          contactForm.reset(); // پاک کردن فرم
-        } else {
-          formStatus.textContent = 'لطفاً همه فیلدها را پر کنید.';
-          formStatus.className = 'mt-4 text-center text-sm text-red-400';
-        }
-      }, 1500);
     });
   </script>
 </body>
