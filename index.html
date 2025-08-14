@@ -1,354 +1,214 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="رزومه مهدی برزنده، توسعه‌دهنده وب و طراح گرافیک با تجربه در Next.js، React و Supabase">
-  <meta name="keywords" content="رزومه, توسعه‌دهنده وب, طراحی گرافیک, Next.js, React, Supabase, برنامه‌نویسی">
-  <meta name="author" content="مهدی برزنده">
-  <title>رزومه مهدی برزنده</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    /* === تنظیمات پایه و متغیرهای رنگی === */
-    :root {
-      --bg-dark: #0f172a;
-      --bg-light: #1e293b;
-      --text-light: #e2e8f0;
-      --text-muted: #94a3b8;
-      --accent-yellow: #facc15;
-      --accent-blue: #3b82f6;
-    }
-
-    body {
-      font-family: 'Vazirmatn', 'Inter', sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-light);
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-
-    /* === استایل‌دهی بخش‌ها با انیمیشن ورود بهبودیافته === */
-    section {
-      margin: 4rem 0;
-      padding: 2.5rem;
-      background-color: var(--bg-light);
-      border-radius: 1.5rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      opacity: 0;
-      transform: translateY(60px) scale(0.97);
-      transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
-      width: 95%;
-      max-width: 1200px;
-    }
-
-    section.is-visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    /* === استایل عناوین بخش‌ها === */
-    h2 {
-      font-size: 2.8rem;
-      font-weight: 800;
-      color: var(--accent-yellow);
-      border-bottom: 4px solid var(--accent-blue);
-      padding-bottom: 1rem;
-      margin-bottom: 3rem;
-      text-align: center;
-    }
-
-    /* === انیمیشن‌های جدید === */
-    @keyframes fadeInScale {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    @keyframes slideInFromTop {
-      from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رزومه | مهدی برزنده</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    @keyframes subtle-pulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
-      50% { transform: scale(1.05); box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5); }
-    }
+    <style>
+        /* --- Import Font --- */
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
 
-    @keyframes progress-fill-anim {
-        from { width: 0%; }
-    }
-
-    /* === دکمه بازگشت به بالا === */
-    #back-to-top {
-      position: fixed;
-      bottom: 24px;
-      left: 24px;
-      background: linear-gradient(45deg, var(--accent-blue), var(--accent-yellow));
-      color: white;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      z-index: 100;
-    }
-    #back-to-top.show {
-      opacity: 1;
-      transform: translateY(0);
-      animation: subtle-pulse 2.5s infinite ease-in-out;
-    }
-    #back-to-top:hover {
-      transform: scale(1.1) !important; /* to override pulse */
-      box-shadow: 0 8px 25px rgba(250, 204, 21, 0.5);
-    }
-
-    /* === استایل پیشرفته برای کارت‌های مهارت با افکت درخشش === */
-    .skill-item, .experience-item {
-        position: relative;
-        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
-    }
-
-    .skill-item::before, .experience-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border-radius: 1.1rem; /* slightly smaller than card's border-radius */
-        border: 2px solid transparent;
-        background: linear-gradient(45deg, var(--accent-blue), var(--accent-yellow)) border-box;
-        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: destination-out;
-        mask-composite: exclude;
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        z-index: 0;
-    }
-
-    .skill-item:hover, .experience-item:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-    }
-
-    .skill-item:hover::before, .experience-item:hover::before {
-        opacity: 1;
-    }
-    
-    /* کلاس برای انیمیشن پر شدن نوار پیشرفت */
-    .progress-fill.animated {
-        animation: progress-fill-anim 1.5s 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-    }
-  </style>
-</head>
-<body class="antialiased">
-
-  <!-- === هدر جدید جایگزین شده === -->
-  <header class="relative w-full h-[600px] bg-gradient-to-br from-gray-900 to-blue-950 flex flex-col justify-center items-center text-white overflow-hidden shadow-2xl">
-    <div class="absolute inset-0 z-0 opacity-10" style="background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg stroke='%234A5568' stroke-width='1.2'%3E%3Cpath d='M-400 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M0 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M400 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M800 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M1200 0h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M-400 400h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M0 400h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M400 400h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M800 400h800v800h-800Z' fill='%232D3748'/%3E%3Cpath d='M1200 400h800v800h-800Z' fill='%232D3748'/%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to bottom, #1e293b, #0f172a); background-size: cover;"></div>
-
-    <div class="z-10 text-center p-4">
-      <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-white animate-[fadeInScale_1.5s_ease-out_forwards]">
-        مهدی برزنده
-      </h1>
-      <p class="text-xl md:text-2xl lg:text-3xl text-gray-300 mb-8 animate-[fadeInScale_1.5s_ease-out_0.5s_forwards]">
-        توسعه‌دهنده وب | طراح گرافیک | خالق تجربیات دیجیتال
-      </p>
-      <nav class="space-x-6 md:space-x-8 animate-[slideInFromTop_1s_ease-out_0.8s_forwards] opacity-0">
-        <a href="#about" class="text-white text-lg font-medium hover:text-yellow-400 transition-all duration-300 relative group">
-          درباره من
-          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 group-hover:w-full transition-all duration-300"></span>
-        </a>
-        <a href="#skills" class="text-white text-lg font-medium hover:text-yellow-400 transition-all duration-300 relative group">
-          مهارت‌ها
-          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 group-hover:w-full transition-all duration-300"></span>
-        </a>
-        <a href="#experience" class="text-white text-lg font-medium hover:text-yellow-400 transition-all duration-300 relative group">
-          تجربه کاری
-          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 group-hover:w-full transition-all duration-300"></span>
-        </a>
-         <a href="portfolio.html" class="text-white text-lg font-medium hover:text-yellow-400 transition-all duration-300 relative group">
-          نمونه کار
-          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 group-hover:w-full transition-all duration-300"></span>
-        </a>
-        <a href="contact.html" class="text-white text-lg font-medium hover:text-yellow-400 transition-all duration-300 relative group">
-          تماس با ما
-          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 group-hover:w-full transition-all duration-300"></span>
-        </a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="w-full flex flex-col items-center px-4 md:px-6 lg:px-8">
-    <section id="about">
-      <h2>درباره من</h2>
-      <p class="text-lg text-center max-w-4xl mx-auto leading-relaxed text-gray-300">
-        من مهدی برزنده، توسعه‌دهنده وب با اشتیاق به خلق وبسایت‌های مدرن و کاربرپسند با استفاده از فناوری‌هایی مانند Next.js، React و Supabase، HTML، CSS، JS، Astro هستم.
-        در کنار کدنویسی، در طراحی گرافیک و ویرایش ویدئو مهارت دارم و به ایجاد تجربیات بصری خیره‌کننده علاقه‌مندم.
-      </p>
-    </section>
-
-    <section id="skills">
-      <h2>مهارت‌ها</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- آیتم مهارت: توسعه وب -->
-        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center">
-          <div class="relative z-10">
-            <i data-lucide="code-xml" class="w-12 h-12 text-blue-400 mb-4"></i>
-            <h3 class="text-2xl font-semibold text-white mb-2">توسعه وب (فرانت‌اند)</h3>
-            <p class="text-gray-300 mb-2">HTML, CSS, JavaScript, Next.js, React</p>
-            <p class="text-gray-400 text-sm mb-4">سطح: حرفه‌ای</p>
-            <div class="progress-bar w-full bg-gray-700 rounded-full h-3.5">
-              <div class="progress-fill bg-gradient-to-r from-blue-500 to-yellow-500 h-3.5 rounded-full" data-width="90%"></div>
-            </div>
-          </div>
-        </div>
-        <!-- آیتم مهارت: طراحی گرافیک -->
-        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center">
-          <div class="relative z-10">
-            <i data-lucide="palette" class="w-12 h-12 text-green-400 mb-4"></i>
-            <h3 class="text-2xl font-semibold text-white mb-2">طراحی گرافیک</h3>
-            <p class="text-gray-300 mb-2">Adobe Photoshop, Illustrator</p>
-            <p class="text-gray-400 text-sm mb-4">سطح: متوسط</p>
-            <div class="progress-bar w-full bg-gray-700 rounded-full h-3.5">
-              <div class="progress-fill bg-gradient-to-r from-green-400 to-blue-400 h-3.5 rounded-full" data-width="80%"></div>
-            </div>
-          </div>
-        </div>
-        <!-- آیتم مهارت: ویرایش ویدئو -->
-        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center">
-          <div class="relative z-10">
-            <i data-lucide="film" class="w-12 h-12 text-red-400 mb-4"></i>
-            <h3 class="text-2xl font-semibold text-white mb-2">ویرایش ویدئو</h3>
-            <p class="text-gray-300 mb-2">Adobe Premiere, After Effects</p>
-            <p class="text-gray-400 text-sm mb-4">سطح: متوسط</p>
-            <div class="progress-bar w-full bg-gray-700 rounded-full h-3.5">
-              <div class="progress-fill bg-gradient-to-r from-red-500 to-orange-500 h-3.5 rounded-full" data-width="50%"></div>
-            </div>
-          </div>
-        </div>
-        <!-- آیتم مهارت: مدیریت پنل ادمین -->
-        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center">
-            <div class="relative z-10">
-              <i data-lucide="layout-dashboard" class="w-12 h-12 text-purple-400 mb-4"></i>
-              <h3 class="text-2xl font-semibold text-white mb-2">مدیریت پنل ادمین</h3>
-              <p class="text-gray-300 mb-2">طراحی داشبورد</p>
-              <p class="text-gray-400 text-sm mb-4">سطح: پیشرفته</p>
-              <div class="progress-bar w-full bg-gray-700 rounded-full h-3.5">
-                <div class="progress-fill bg-gradient-to-r from-purple-500 to-indigo-500 h-3.5 rounded-full" data-width="70%"></div>
-              </div>
-            </div>
-          </div>
-        <!-- آیتم مهارت: توسعه بک‌اند -->
-        <div class="skill-item bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col items-center text-center">
-          <div class="relative z-10">
-            <i data-lucide="database" class="w-12 h-12 text-yellow-400 mb-4"></i>
-            <h3 class="text-2xl font-semibold text-white mb-2">توسعه بک‌اند</h3>
-            <p class="text-gray-300 mb-2">Node.js, Supabase</p>
-            <p class="text-gray-400 text-sm mb-4">سطح: مبتدی تا متوسط</p>
-            <div class="progress-bar w-full bg-gray-700 rounded-full h-3.5">
-              <div class="progress-fill bg-gradient-to-r from-yellow-500 to-amber-500 h-3.5 rounded-full" data-width="30%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="experience">
-      <h2>تجربه کاری</h2>
-      <div class="space-y-8">
-        <div class="experience-item bg-gray-800 p-8 rounded-xl shadow-lg">
-          <h3 class="text-2xl font-semibold text-white mb-2 flex items-center">
-            <i data-lucide="briefcase" class="w-7 h-7 text-yellow-400 ml-3"></i>
-            توسعه‌دهنده وب فریلنسر
-          </h3>
-          <p class="text-gray-400 text-sm mb-4">خوداشتغالی | ۱۴۰۱ - تاکنون</p>
-          <ul class="list-disc list-inside text-gray-300 space-y-2 pl-2">
-            <li>طراحی و پیاده‌سازی وبسایت فروشگاهی با Next.js و Supabase</li>
-            <li>ساخت داشبورد مدیریت کاربران با امکانات</li>
-            <li>بهینه‌سازی رابط کاربری برای افزایش نرخ تعامل کاربران</li>
-          </ul>
-        </div>
-        <div class="experience-item bg-gray-800 p-8 rounded-xl shadow-lg">
-          <h3 class="text-2xl font-semibold text-white mb-2 flex items-center">
-            <i data-lucide="palette" class="w-7 h-7 text-green-400 ml-3"></i>
-            طراح گرافیک (پاره‌وقت)
-          </h3>
-          <ul class="list-disc list-inside text-gray-300 space-y-2 pl-2">
-            <li>طراحی بنرهای تبلیغاتی و محتوای بصری برای شبکه‌های اجتماعی</li>
-            <li>همکاری در تولید ویدئوهای تبلیغاتی کوتاه</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <button id="back-to-top" title="بازگشت به بالا">
-    <i data-lucide="chevron-up" class="w-7 h-7"></i>
-  </button>
-
-  <footer class="w-full bg-gray-900 text-center py-6 mt-16 shadow-inner">
-    <p class="text-gray-400 text-sm">© ۱۴۰۴ مهدی برزنده | تمامی حقوق محفوظ است</p>
-  </footer>
-
-  <script>
-    lucide.createIcons();
-
-    // === مدیریت انیمیشن‌های هنگام اسکرول ===
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          
-          // انیمیشن برای آیتم‌های فرزند (کارت‌های مهارت و تجربه) با تاخیر
-          const items = entry.target.querySelectorAll('.skill-item, .experience-item');
-          items.forEach((item, index) => {
-            item.style.transitionDelay = `${index * 150}ms`;
-          });
-
-          // انیمیشن برای نوارهای پیشرفت
-          const progressBars = entry.target.querySelectorAll('.progress-fill');
-          progressBars.forEach(bar => {
-            const width = bar.getAttribute('data-width');
-            bar.style.width = width;
-            bar.classList.add('animated');
-          });
-
-          observer.unobserve(entry.target);
+        /* --- Global Variables --- */
+        :root {
+            --primary-color: #00aaff;
+            --secondary-color: #0077cc;
+            --dark-color: #121212;
+            --card-bg: rgba(30, 30, 30, 0.85); /* Semi-transparent card background */
+            --light-text: #e0e0e0;
+            --medium-text: #a0a0a0;
+            --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            --card-border: 1px solid #333;
         }
-      });
-    }, observerOptions);
 
-    document.querySelectorAll('section').forEach(section => {
-      observer.observe(section);
-    });
+        /* --- Base Styles --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--dark-color);
+            color: var(--light-text);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
 
-    // === دکمه بازگشت به بالا ===
-    const backToTopButton = document.getElementById('back-to-top');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 400) {
-        backToTopButton.classList.add('show');
-      } else {
-        backToTopButton.classList.remove('show');
-      }
-    });
+        /* --- Animated Background --- */
+        #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; }
+        .container, .hero, footer { position: relative; z-index: 1; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3 { color: white; font-weight: 700; }
+        h2 { margin-bottom: 25px; text-align: center; font-size: 2rem; position: relative; padding-bottom: 10px; }
+        h2::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); border-radius: 2px; }
+        a { color: var(--primary-color); text-decoration: none; transition: color 0.3s ease; }
+        a:hover { color: var(--secondary-color); }
 
-    backToTopButton.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  </script>
+        /* --- Animation --- */
+        @keyframes fadeInSlideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Header/Hero Section --- */
+        .hero { text-align: center; padding: 80px 20px; background: linear-gradient(rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 0.9)); animation: fadeInSlideUp 1s ease-out; }
+        .hero .profile-pic { width: 150px; height: 150px; border-radius: 50%; border: 5px solid var(--primary-color); object-fit: cover; margin-bottom: 20px; box-shadow: 0 0 25px rgba(0, 170, 255, 0.5); }
+        .hero h1 { font-size: 3rem; margin-bottom: 10px; }
+        .hero p { font-size: 1.5rem; color: var(--primary-color); font-weight: 300; }
+        .contact-info { margin-top: 25px; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
+        .contact-info a { font-size: 1rem; color: var(--light-text); }
+        .contact-info a i { margin-left: 8px; color: var(--primary-color); }
+
+        /* --- Card Styles --- */
+        .card { background-color: var(--card-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 30px; margin-bottom: 30px; border-radius: 15px; border: var(--card-border); box-shadow: var(--card-shadow); transition: transform 0.3s ease, box-shadow 0.3s ease; opacity: 0; animation: fadeInSlideUp 0.8s ease-out forwards; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5); }
+        .card:nth-of-type(1) { animation-delay: 0.2s; } .card:nth-of-type(2) { animation-delay: 0.4s; } .card:nth-of-type(3) { animation-delay: 0.6s; } .card:nth-of-type(4) { animation-delay: 0.8s; }
+
+        /* --- About Section --- */
+        #about p { font-size: 1.1rem; text-align: center; }
+
+        /* --- Skills Section --- */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
+        .skill-item { padding: 15px; border-radius: 8px; background: rgba(40, 40, 40, 0.5); }
+        .skill-item p { margin-bottom: 10px; font-weight: bold; }
+        .skill-bar { background-color: #444; height: 12px; border-radius: 6px; overflow: hidden; }
+        .skill-level { height: 100%; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); border-radius: 6px; width: 0; animation: fillBar 2s ease-out forwards; animation-delay: 1.2s; }
+        @keyframes fillBar { from { width: 0; } }
+
+        /* --- Experience Section (Timeline) --- */
+        .timeline { position: relative; padding-top: 20px; }
+        .timeline::before { content: ''; position: absolute; top: 20px; right: 15px; width: 3px; height: calc(100% - 20px); background: var(--primary-color); opacity: 0.3; }
+        .timeline-item { position: relative; padding-right: 50px; margin-bottom: 40px; }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-item::after { content: ''; position: absolute; top: 8px; right: 4px; width: 25px; height: 25px; background: var(--dark-color); border: 4px solid var(--primary-color); border-radius: 50%; z-index: 1; }
+        .timeline-date { color: var(--medium-text); font-size: 0.9rem; margin-bottom: 5px; }
+        .timeline-item h3 { font-size: 1.3rem; color: var(--primary-color); }
+        .timeline-company { font-weight: bold; color: var(--light-text); margin-bottom: 10px; }
+        .timeline-item ul { list-style-type: none; padding-right: 20px; }
+        .timeline-item li { position: relative; }
+        .timeline-item li::before { content: '•'; color: var(--primary-color); position: absolute; right: -15px; font-size: 1.2rem; }
+        
+        /* --- Portfolio Section --- */
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 20px; }
+        .portfolio-item { background: rgba(40, 40, 40, 0.7); border-radius: 10px; overflow: hidden; border: 1px solid #444; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .portfolio-item:hover { transform: translateY(-8px); box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4); }
+        .portfolio-image { width: 100%; height: 180px; object-fit: cover; background-color: #333; }
+        .portfolio-content { padding: 20px; }
+        .portfolio-content h3 { color: var(--primary-color); margin-bottom: 10px; }
+        .portfolio-content p { font-size: 0.95rem; color: var(--medium-text); margin-bottom: 15px; }
+        .portfolio-link { display: inline-block; padding: 8px 15px; background: var(--primary-color); color: white; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; }
+        .portfolio-link:hover { background: var(--secondary-color); color: white; }
+
+        /* --- Footer --- */
+        footer { text-align: center; padding: 30px; margin-top: 30px; background-color: var(--card-bg); backdrop-filter: blur(10px); }
+        .social-links a { font-size: 1.8rem; margin: 0 15px; color: var(--medium-text); transition: color 0.3s, transform 0.3s; }
+        .social-links a:hover { color: var(--primary-color); transform: translateY(-5px); }
+        footer p { margin-top: 20px; color: var(--medium-text); font-size: 0.9rem; }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.2rem; }
+            h2 { font-size: 1.8rem; }
+            .timeline::before { right: 8px; }
+            .timeline-item { padding-right: 40px; }
+            .timeline-item::after { right: -2px; width: 20px; height: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <header class="hero">
+        <img src="https://dwevrqyekxjbgiwrvcty.supabase.co/storage/v1/object/public/my/photo_5830262695679610103_y.jpg" alt="عکس پروفایل" class="profile-pic">
+        <h1>مهدی برزنده</h1>
+        <p>توسعه‌دهنده فول استک (Full-Stack)</p>
+        <div class="contact-info">
+            <a href="mailto:mehdi.barzandeh.2003@gmail.com"><i class="fas fa-envelope"></i>mehdi.barzandeh.2003@gmail.com</a>
+         
+        </div>
+    </header>
+
+    <div class="container">
+        <section id="about" class="card">
+            <h2><i class="fas fa-user-circle"></i> درباره من</h2>
+            <p>
+                توسعه‌دهنده فول استک با ۵ سال تجربه به صورت فریلنسر و شیفته تکنولوژی‌های وب. متخصص در توسعه End-to-End پروژه‌ها، از طراحی دیتابیس و پیاده‌سازی بک‌اند تا خلق رابط‌های کاربری پویا و مدرن. همواره در حال یادگیری و به دنبال چالش‌های جدید برای ساخت محصولات دیجیتال کارآمد و زیبا هستم.
+            </p>
+        </section>
+
+        <section id="skills" class="card">
+            <h2><i class="fas fa-cogs"></i> مهارت‌های کلیدی</h2>
+            <div class="skills-grid">
+                <div class="skill-item"><p>Next.js</p><div class="skill-bar"><div class="skill-level" style="width: 95%;"></div></div></div>
+                <div class="skill-item"><p>Node.js</p><div class="skill-bar"><div class="skill-level" style="width: 90%;"></div></div></div>
+                <div class="skill-item"><p>HTML & Advanced CSS</p><div class="skill-bar"><div class="skill-level" style="width: 98%;"></div></div></div>
+                <div class="skill-item"><p>SQL & Databases</p><div class="skill-bar"><div class="skill-level" style="width: 85%;"></div></div></div>
+                <div class="skill-item"><p>Supabase </p><div class="skill-bar"><div class="skill-level" style="width: 80%;"></div></div></div>
+                <div class="skill-item"><p>UI/UX Design</p><div class="skill-bar"><div class="skill-level" style="width: 88%;"></div></div></div>
+            </div>
+        </section>
+
+        <section id="experience" class="card">
+            <h2><i class="fas fa-briefcase"></i> سوابق کاری</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">۱۳۹۸ - تاکنون</div>
+                    <h3>توسعه‌دهنده فول استک خودمتخصص (Freelancer)</h3>
+                    <div class="timeline-company">پروژه‌های متعدد بین‌المللی و داخلی</div>
+                    <ul>
+                        <li>توسعه کامل پروژه‌ها از ایده تا استقرار نهایی (Deployment) روی سرور.</li>
+                        <li>طراحی و پیاده‌سازی APIهای RESTful با Node.js برای سرویس‌های مختلف.</li>
+                        <li>ساخت رابط‌های کاربری مدرن و واکنش‌گرا با فریم‌ورک Next.js.</li>
+                        <li>مدیریت پایگاه‌های داده SQL و یکپارچه‌سازی با پلتفرم‌های  مانند Supabase.</li>
+                        <li>طراحی تجربه‌ کاربری (UX) و رابط کاربری (UI) برای افزایش تعامل کاربران.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="portfolio" class="card">
+            <h2><i class="fas fa-laptop-code"></i> نمونه کارها</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="https://source.unsplash.com/random/400x300/?ecommerce,website" alt="پروژه فروشگاهی" class="portfolio-image">
+                    <div class="portfolio-content">
+                        <h3>پلتفرم فروشگاهی</h3>
+                        <p>یک پلتفرم کامل فروشگاهی با پنل مدیریت، درگاه پرداخت و مدیریت محصولات. تکنولوژی‌ها: Next.js, Node.js, PostgreSQL.</p>
+                        <a href="#" class="portfolio-link" target="_blank">مشاهده پروژه <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://source.unsplash.com/random/400x300/?dashboard,admin" alt="داشبورد مدیریتی" class="portfolio-image">
+                    <div class="portfolio-content">
+                        <h3>داشبورد آنالیتیکس</h3>
+                        <p>داشبورد مدیریتی برای تحلیل داده‌ها با نمودارهای پویا. تکنولوژی‌ها: Next.js, Supabase, Chart.js.</p>
+                        <a href="#" class="portfolio-link" target="_blank">مشاهده پروژه <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                     <img src="https://source.unsplash.com/random/400x300/?landing,app" alt="لندینگ پیج" class="portfolio-image">
+                    <div class="portfolio-content">
+                        <h3>وب‌سایت معرفی شرکت</h3>
+                        <p>طراحی و پیاده‌سازی یک لندینگ پیج مدرن با انیمیشن‌های جذاب برای معرفی یک استارتاپ.</p>
+                        <a href="#" class="portfolio-link" target="_blank">مشاهده پروژه <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="social-links">
+           
+            <a href="https://www.instagram.com/m.barzande.h/" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p>&copy; ۱۴۰۳ - تمام حقوق برای مهدی برزنده محفوظ است.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#00aaff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5, "random": false }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#0077cc", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 4, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false } },
+            "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "repulse": { "distance": 150, "duration": 0.4 }, "push": { "particles_nb": 4 } } },
+            "retina_detect": true
+        });
+    </script>
 </body>
 </html>
